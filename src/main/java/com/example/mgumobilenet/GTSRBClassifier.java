@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.example.mgumobilenet.ml.Model;
+import com.example.mgumobilenet.ml.ModelAug2;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.image.ImageProcessor;
@@ -17,12 +18,12 @@ import java.util.logging.Logger;
 
 public class GTSRBClassifier {
 
-    Model model;
+    ModelAug2 model;
 
     private final Logger logger = Logger.getLogger(String.valueOf(GTSRBClassifier.class));
 
     GTSRBClassifier(Context context) throws IOException {
-        model = Model.newInstance(context);
+        model = ModelAug2.newInstance(context);
     }
 
     public String classify(Bitmap image) {
@@ -34,7 +35,7 @@ public class GTSRBClassifier {
         tensorImage.load(image);
         tensorImage = imageProcessor.process(tensorImage);
 
-        Model.Outputs output = model.process(tensorImage.getTensorBuffer());
+        ModelAug2.Outputs output = model.process(tensorImage.getTensorBuffer());
 
         float[] probabilities = output.getOutputFeature0AsTensorBuffer().getFloatArray();
 
